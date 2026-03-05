@@ -18,7 +18,7 @@ Spring Boot + Thymeleaf 기반의 SSR(Server Side Rendering) 방식으로 구현
 | Language | Java 17 |
 | Framework | Spring Boot |
 | View | Thymeleaf |
-| Build | Maven / Gradle |
+| Build | Gradle |
 
 <br>
 
@@ -74,7 +74,7 @@ git clone https://github.com/your-repo/daily-quote.git
 cd daily-quote
 
 # 애플리케이션 실행
-./mvnw spring-boot:run
+./gradlew bootRun
 ```
 
 실행 후 브라우저에서 `http://localhost:8080` 접속
