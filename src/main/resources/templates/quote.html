@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 명언</title>
+  <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #f0f0ef;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Gmarket Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    /* 배경 블롭 */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .55;
+      pointer-events: none;
+      animation: drift 10s ease-in-out infinite alternate;
+    }
+    .blob-1 { width: 420px; height: 420px; background: #b9ff66; top: -120px; left: -80px; animation-delay: 0s; }
+    .blob-2 { width: 360px; height: 360px; background: #a78bfa; bottom: -100px; right: -60px; animation-delay: -4s; }
+    .blob-3 { width: 280px; height: 280px; background: #fb923c; top: 40%; left: 55%; animation-delay: -7s; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.08); }
+    }
+
+    /* 카드 */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(560px, 90vw);
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1.5px solid rgba(255,255,255,.8);
+      border-radius: 28px;
+      padding: 2.8rem 2.8rem 2.2rem;
+      box-shadow: 0 8px 48px rgba(0,0,0,.10);
+      animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.92) translateY(16px); }
+      to   { opacity: 1; transform: scale(1)   translateY(0); }
+    }
+
+    /* 헤더 */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: 2rem;
+    }
+
+    .pill {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: #111;
+      background: #b9ff66;
+      border-radius: 999px;
+      padding: .3rem .9rem;
+    }
+
+    @keyframes blink {
+      0%,100% { opacity: 1; } 50% { opacity: .2; }
+    }
+
+    /* 명언 */
+    .quote-body {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .quote-text {
+      font-size: clamp(1.25rem, 4vw, 1.6rem);
+      font-weight: 500;
+      line-height: 1.65;
+      color: #111;
+      word-break: keep-all;
+      letter-spacing: -.01em;
+    }
+
+    .author {
+      margin-top: 1rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem;
+      color: #888;
+      font-weight: 400;
+    }
+
+    /* 버튼 */
+    .btn-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      background: #111;
+      color: #f0f0ef;
+      font-family: 'Gmarket Sans', sans-serif;
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      padding: .7rem 1.4rem;
+      border-radius: 999px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+
+    .btn:hover {
+      background: #333;
+      transform: scale(1.04);
+    }
+
+    .btn:active { transform: scale(.97); }
+
+    .btn svg {
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    .btn:hover svg { transform: rotate(200deg); }
+  </style>
+</head>
+<body>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="card">
+    <div class="header">
+      <span class="pill">오늘의 명언</span>
+    </div>
+
+    <div class="quote-body">
+      <p class="quote-text" th:text="${quote.content}">
+        실패는 성공의 어머니다.
+      </p>
+      <p class="author" th:text="'— ' + ${quote.author}">
+        — 토마스 에디슨
+      </p>
+    </div>
+
+    <div class="btn-row">
+      <!-- SSR: GET /quote 재요청으로 새 명언 -->
+      <a class="btn" th:href="@{/quote}">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0114.36-3.36L23 10M1 14l5.13 4.36A9 9 0 0020.49 15"/>
+        </svg>
+        새로고침
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
